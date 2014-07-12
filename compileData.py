@@ -57,21 +57,17 @@ def count_by(key, list_of_dict):
 #parameter:
 #process:
 #output:
-def find_city(list_of_dict):
-    result = []
+def assignCity(list_of_dict):
     for dic in list_of_dict:
         location = dic['Location 1'].lower()
         to_splice = location.index('\n')
         dic['city'] = location[:to_splice]
-        if dic['city'] not in result:
-            result.append(dic['city'])
-    return result
+
 
 #function: mean
 #parameter: a list 
 #process: it sums the list and divides it by the list's length
 #output: returns the mean of the list
-sum()
 def mean (lis):
     return sum(lis)/len(lis)
 
@@ -109,7 +105,7 @@ def sortByValue(dic):
 #output: prints the dict
 def printDic(keys, dic, limit, inversed):
     #print dic #for debugging
-    count = 0
+    count = 1
     if inversed:
         for key in reversed(keys):
             if count > limit:
@@ -124,39 +120,61 @@ def printDic(keys, dic, limit, inversed):
             count += 1
 
 def print_stats(total, subset):
+    #assigning the custom fields
     assignDate(subset)
+    assignCity(subset)
+    #acquiring length 
     total_length = len(total)
     subset_length = len(subset)
-    perc_subset = round(float(subset_length) / total_length * 100, 2)
+
+    #calculating gender
     genders = count_by("GENERO", subset)
+
+    #calculating GPA
+    avg_gpa =  calc_dics_avg("GPA", subset)
+
+    #calculating years
+    years = count_by("year", subset)
+
+    #calculating destinations
+    dest_campus =  count_by("CAMPUS", subset)
+
+    #calculating origins
+    places = count_by("city", subset)
+
+    #calculating percentages
+    perc_subset = round(float(subset_length) / total_length * 100, 2)
     perc_male = round(float(genders["masculino"]) / subset_length * 100, 2)
     perc_female = round(float(genders["femenino"]) / subset_length * 100, 2)
-    avg_gpa =  calc_dics_avg("GPA", subset)
-    years = count_by("year", subset)
+
+    #sorting
     sorted_year = sorted(years)
-    dest_campus =  count_by("CAMPUS", subset)
-    campuses = sortByValue(dest_campus)
+    sorted_campuses = sortByValue(dest_campus)
+    sorted_places = sortByValue(places)
+    sorted_places = sortByValue(places)
+
+    #printing
     print "Total students: %d" % (total_length)
     print "Total Computer Science students: %d" % (subset_length)
     print "Percentage of Computer Science students:", perc_subset, "%"
     print "Percentage of Male Computer Science students:", perc_male, "%"
     print "Percentage Female Computer Science students: ", perc_female, "%"
     print "Average GPA:", avg_gpa
+
     print "Admissions by Academic Year:"
     printDic(sorted_year, years, len(sorted_year), False)
     print "Destination Campus:"
-    printDic(campuses, dest_campus, len(campuses), True)
-
+    printDic(sorted_campuses, dest_campus, len(sorted_campuses), True)
+    print "Cities of Origin:"
+    printDic(sorted_places, places, 10, True)
 
 def main ():
-    data_lisay = load_data(sys.argv[1])
-    comp_sci = extract_by("PROGRAM", "compu", data_lisay) + extract_by("PROGRAM", u"cómp", data_lisay)
+    data_file = load_data(sys.argv[1])
+    comp_sci = extract_by("PROGRAM", "compu", data_file) + extract_by("PROGRAM", u"cómp", data_file)
     pprint.pprint(comp_sci[:10])
-    print_stats(data_lisay, comp_sci)
+    print_stats(data_file, comp_sci)
 
-    places = find_city(comp_sci)
 
-    print_cities(comp_sci)
 
 if __name__ == '__main__':
     main()
