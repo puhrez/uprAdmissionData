@@ -9,7 +9,7 @@ def load_data(json_fl):
 
 def extract_by(key, value, arr_of_obj, extra_value = None):
     result = []
-    for obj in arr:
+    for obj in arr_of_obj:
         if type(obj[key] == str):
             obj[key] = obj[key].lower()
         if extra_value:
@@ -22,21 +22,39 @@ def extract_by(key, value, arr_of_obj, extra_value = None):
     return result
 def count_by(key, arr_of_obj):
     result = {}
-    for obj in arr:
-        if obj[key] not in result:
-            result[obj[key]] = 1
+    for obj in arr_of_obj:
+        gender = obj[key].lower()
+        if gender not in result:
+            result[gender] = 1
         else:
-            result[obj[key]] += 1
+            result[gender] += 1
     return result
-
+def mean (arr):
+    total = 0
+    for num in arr:
+        total += num
+    return total/len(arr)
+def calc_objs_avg(key, arr_of_obj):
+    arr = []
+    for obj in arr_of_obj:
+        if obj[key]:
+            arr.append(obj[key])
+    return round(mean(arr),2)
 
 def print_stats(total, subset):
     total_length = len(total)
     subset_length = len(subset)
-    perc_subset = float(subset_length) / total_length * 100
+    perc_subset = round(float(subset_length) / total_length * 100, 2)
+    genders = count_by("GENERO", subset)
+    perc_male = round(float(genders["masculino"]) / subset_length * 100, 2)
+    perc_female = round(float(genders["femenino"]) / subset_length * 100, 2)
+    avg_gpa =  calc_objs_avg("GPA", subset)
     print "Total students: %d" % (total_length)
     print "Total Computer Science students: %d" % (subset_length)
-    print "Percentage of Computer Science students:", round(perc_subset, 2), "%"
+    print "Percentage of Computer Science students:", perc_subset, "%"
+    print "Percentage of Male Computer Science students:", perc_male, "%"
+    print "Percentage Female Computer Science students: ", perc_female, "%"
+    print "Average GPA:", avg_gpa
 
 
 def main ():
