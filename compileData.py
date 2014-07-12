@@ -60,14 +60,14 @@ def calc_objs_avg(key, arr_of_obj):
             arr.append(obj[key])
     return round(mean(arr),2)
 
-<<<<<<< HEAD
+
 def print_cities(population):
     city_count = count_by('city', population)
     print "Cities students came from:"
     for tup in city_count.items():
         print tup[0], tup[1]
 
-=======
+
 def sortByValue(dic):
    return sorted(dic, key= dic.get)
 
@@ -86,7 +86,7 @@ def printDic(keys, dic, limit, inversed):
                 break;
             print key, dic[key]
             count += 1
->>>>>>> 05d1dedb45b9bf59a237b3d687c17fd9e25b448e
+
 
 def print_stats(total, subset):
     assignDate(subset)
