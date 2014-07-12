@@ -49,6 +49,25 @@ def calc_objs_avg(key, arr_of_obj):
             arr.append(obj[key])
     return round(mean(arr),2)
 
+def sortByValue(dic):
+   return sorted(dic, key= dic.get)
+
+def printDic(keys, dic, limit, inversed):
+    #print dic #for debugging
+    count = 0
+    if inversed:
+        for key in reversed(keys):
+            if count > limit:
+                break;
+            print key, dic[key]
+            count += 1
+    else:
+        for key in keys:
+            if count > limit:
+                break;
+            print key, dic[key]
+            count += 1
+
 def print_stats(total, subset):
     assignDate(subset)
     total_length = len(total)
@@ -59,7 +78,9 @@ def print_stats(total, subset):
     perc_female = round(float(genders["femenino"]) / subset_length * 100, 2)
     avg_gpa =  calc_objs_avg("GPA", subset)
     years = count_by("year", subset)
+    sorted_year = sorted(years)
     dest_campus =  count_by("CAMPUS", subset)
+    campuses = sortByValue(dest_campus)
     print "Total students: %d" % (total_length)
     print "Total Computer Science students: %d" % (subset_length)
     print "Percentage of Computer Science students:", perc_subset, "%"
@@ -67,11 +88,9 @@ def print_stats(total, subset):
     print "Percentage Female Computer Science students: ", perc_female, "%"
     print "Average GPA:", avg_gpa
     print "Admissions by Academic Year:"
-    for tup in years.items():
-        print tup[0], tup[1]
+    printDic(sorted_year, years, len(sorted_year), False)
     print "Destination Campus:"
-    for tup in dest_campus.items():
-        print tup[0], tup[1]
+    printDic(campuses, dest_campus, len(campuses), True)
 
 
 def main ():
