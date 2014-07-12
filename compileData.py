@@ -23,11 +23,11 @@ def extract_by(key, value, arr_of_obj, extra_value = None):
 def count_by(key, arr_of_obj):
     result = {}
     for obj in arr_of_obj:
-        gender = obj[key].lower()
+        category = obj[key].lower()
         if gender not in result:
-            result[gender] = 1
+            result[category] = 1
         else:
-            result[gender] += 1
+            result[category] += 1
     return result
 def mean (arr):
     total = 0
