@@ -20,6 +20,7 @@ def extract_by(key, value, arr_of_obj, extra_value = None):
             #print obj
             result.append(obj)
     return result
+
 def assignDate(arr_of_obj):
     for obj in arr_of_obj:
         if obj["CALENDARIO"]:
@@ -59,12 +60,33 @@ def calc_objs_avg(key, arr_of_obj):
             arr.append(obj[key])
     return round(mean(arr),2)
 
+<<<<<<< HEAD
 def print_cities(population):
     city_count = count_by('city', population)
     print "Cities students came from:"
     for tup in city_count.items():
         print tup[0], tup[1]
 
+=======
+def sortByValue(dic):
+   return sorted(dic, key= dic.get)
+
+def printDic(keys, dic, limit, inversed):
+    #print dic #for debugging
+    count = 0
+    if inversed:
+        for key in reversed(keys):
+            if count > limit:
+                break;
+            print key, dic[key]
+            count += 1
+    else:
+        for key in keys:
+            if count > limit:
+                break;
+            print key, dic[key]
+            count += 1
+>>>>>>> 05d1dedb45b9bf59a237b3d687c17fd9e25b448e
 
 def print_stats(total, subset):
     assignDate(subset)
@@ -76,15 +98,19 @@ def print_stats(total, subset):
     perc_female = round(float(genders["femenino"]) / subset_length * 100, 2)
     avg_gpa =  calc_objs_avg("GPA", subset)
     years = count_by("year", subset)
+    sorted_year = sorted(years)
+    dest_campus =  count_by("CAMPUS", subset)
+    campuses = sortByValue(dest_campus)
     print "Total students: %d" % (total_length)
     print "Total Computer Science students: %d" % (subset_length)
     print "Percentage of Computer Science students:", perc_subset, "%"
     print "Percentage of Male Computer Science students:", perc_male, "%"
     print "Percentage Female Computer Science students: ", perc_female, "%"
     print "Average GPA:", avg_gpa
-    print "Admissions by Year:"
-    for tup in years.items():
-        print tup[0], tup[1]
+    print "Admissions by Academic Year:"
+    printDic(sorted_year, years, len(sorted_year), False)
+    print "Destination Campus:"
+    printDic(campuses, dest_campus, len(campuses), True)
 
 
 def main ():
