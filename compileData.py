@@ -20,6 +20,7 @@ def extract_by(key, value, arr_of_obj, extra_value = None):
             #print obj
             result.append(obj)
     return result
+
 def assignDate(arr_of_obj):
     for obj in arr_of_obj:
         if obj["CALENDARIO"]:
@@ -40,6 +41,7 @@ def mean (arr):
     for num in arr:
         total += num
     return total/len(arr)
+
 def calc_objs_avg(key, arr_of_obj):
     arr = []
     for obj in arr_of_obj:
@@ -57,14 +59,18 @@ def print_stats(total, subset):
     perc_female = round(float(genders["femenino"]) / subset_length * 100, 2)
     avg_gpa =  calc_objs_avg("GPA", subset)
     years = count_by("year", subset)
+    dest_campus =  count_by("CAMPUS", subset)
     print "Total students: %d" % (total_length)
     print "Total Computer Science students: %d" % (subset_length)
     print "Percentage of Computer Science students:", perc_subset, "%"
     print "Percentage of Male Computer Science students:", perc_male, "%"
     print "Percentage Female Computer Science students: ", perc_female, "%"
     print "Average GPA:", avg_gpa
-    print "Admissions by Year:"
+    print "Admissions by Academic Year:"
     for tup in years.items():
+        print tup[0], tup[1]
+    print "Destination Campus:"
+    for tup in dest_campus.items():
         print tup[0], tup[1]
 
 
