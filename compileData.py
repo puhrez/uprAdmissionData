@@ -12,20 +12,16 @@ def load_data(json_fl):
     return json.load(data_file)
 
 #function: extract_by
-#parameter: a key, the desired value, a list of dictionaries, and optional extraValue
+#parameter: a key, the desired value, a list of dictionaries
 #process: iterates through the list of dicts checking to see if the dict's key has the desired value
 # if so it appeneds it to the resulting lisay
 #output: the lisay of all the dicts with the desired value for the specified key
-def extract_by(key, value, list_of_dict, extra_value = None):
+def extract_by(key, value, list_of_dict):
     result = []
     for dic in list_of_dict:
         if type(dic[key] == str):
             dic[key] = dic[key].lower()
-        if extra_value:
-            if value or extra_value in dic[key]:
-                #print dic
-                result.append(dic)
-        elif value in dic[key]:
+        if value in dic[key]:
             #print dic
             result.append(dic)
     return result
@@ -81,16 +77,6 @@ def calc_dics_avg(key, list_of_dict):
         if dic[key]:
             lis.append(dic[key])
     return round(mean(lis),2)
-
-#function:
-#parameter:
-#process:
-#output:
-def print_cities(population):
-    city_count = count_by('city', population)
-    print "Cities students came from:"
-    for tup in city_count.items():
-        print tup[0], tup[1]
 
 #function: sortByValue
 #parameter: a dictionary
@@ -151,7 +137,6 @@ def print_stats(total, subset):
     sorted_year = sorted(years)
     sorted_campuses = sortByValue(dest_campus)
     sorted_places = sortByValue(places)
-    sorted_places = sortByValue(places)
 
     #printing
     print "Total students: %d" % (total_length)
@@ -170,8 +155,10 @@ def print_stats(total, subset):
 
 def main ():
     data_file = load_data(sys.argv[1])
-    comp_sci = extract_by("PROGRAM", "compu", data_file) + extract_by("PROGRAM", u"cómp", data_file)
-    pprint.pprint(comp_sci[:10])
+    comp_sci = extract_by("PROGRAM", sys.argv[2], data_file) 
+    if sys.argv[3]:
+        comp_sci += extract_by("PROGRAM", sys.argv[3], data_file)
+    #pprint.pprint(comp_sci[:10])
     print_stats(data_file, comp_sci)
 
 
