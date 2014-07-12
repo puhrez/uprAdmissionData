@@ -153,13 +153,24 @@ def sub_stats(total, subset):
     print "Cities of Origin:"
     printDic(sorted_places, places, 10, True)
 
+def genMajor(data_file):
+    programs = {}
+    for obj in data_file:
+        if obj["PROGRAM"] not in programs:
+            programs[obj["PROGRAM"]] = 1
+        else:
+            programs[obj["PROGRAM"]] += 1
+    sorted_prog = sortByValue(programs)
+    printDic(sorted_prog, programs, 20, False)
+
 def main ():
     data_file = load_data(sys.argv[1])
-    comp_sci = extract_by("PROGRAM", sys.argv[2], data_file) #+ extract_by("PROGRAM", u"cómp", data_file)
+    subset = extract_by("PROGRAM", sys.argv[2], data_file) + extract_by("PROGRAM", u"cómp", data_file)
     if sys.argv[3]:
-        comp_sci += extract_by("PROGRAM", sys.argv[3], data_file)
+        subset += extract_by("PROGRAM", sys.argv[3], data_file)
     #pprint.pprint(comp_sci[:10])
-    sub_stats(data_file, comp_sci)
+    #sub_stats(data_file, subset)
+    genMajor(data_file)
 
 if __name__ == '__main__':
     main()
