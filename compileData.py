@@ -35,17 +35,36 @@ def count_by(key, arr_of_obj):
             result[category] += 1
     return result
 
+
+def find_city(arr_of_obj):
+    result = []
+    for obj in arr_of_obj:
+        location = obj['Location 1'].lower()
+        to_splice = location.index('\n')
+        obj['city'] = location[:to_splice]
+        if obj['city'] not in result:
+            result.append(obj['city'])
+    return result
+
 def mean (arr):
     total = 0
     for num in arr:
         total += num
     return total/len(arr)
+
 def calc_objs_avg(key, arr_of_obj):
     arr = []
     for obj in arr_of_obj:
         if obj[key]:
             arr.append(obj[key])
     return round(mean(arr),2)
+
+def print_cities(population):
+    city_count = count_by('city', population)
+    print "Cities students came from:"
+    for tup in city_count.items():
+        print tup[0], tup[1]
+
 
 def print_stats(total, subset):
     assignDate(subset)
@@ -73,6 +92,10 @@ def main ():
     comp_sci = extract_by("PROGRAM", "compu", data_array) + extract_by("PROGRAM", u"cómp", data_array)
     pprint.pprint(comp_sci[:10])
     print_stats(data_array, comp_sci)
+
+    places = find_city(comp_sci)
+
+    print_cities(comp_sci)
 
 if __name__ == '__main__':
     main()
