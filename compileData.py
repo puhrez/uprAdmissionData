@@ -105,7 +105,7 @@ def printDic(keys, dic, limit, inversed):
             print key, dic[key]
             count += 1
 
-def print_stats(total, subset):
+def sub_stats(total, subset):
     #assigning the custom fields
     assignDate(subset)
     assignCity(subset)
@@ -155,13 +155,11 @@ def print_stats(total, subset):
 
 def main ():
     data_file = load_data(sys.argv[1])
-    comp_sci = extract_by("PROGRAM", sys.argv[2], data_file) 
+    comp_sci = extract_by("PROGRAM", sys.argv[2], data_file) #+ extract_by("PROGRAM", u"cómp", data_file)
     if sys.argv[3]:
         comp_sci += extract_by("PROGRAM", sys.argv[3], data_file)
     #pprint.pprint(comp_sci[:10])
-    print_stats(data_file, comp_sci)
-
-
+    sub_stats(data_file, comp_sci)
 
 if __name__ == '__main__':
     main()
